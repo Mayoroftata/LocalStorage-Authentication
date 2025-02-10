@@ -6,7 +6,7 @@ const NavBar = () => {
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div className="container">
           <Link className="navbar-brand" to="/">
-            MyApp
+            MayorTech
           </Link>
           <button
             className="navbar-toggler"
@@ -27,17 +27,17 @@ const NavBar = () => {
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/about">
+                <Link className="nav-link" to="/">
                   About
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link" to="/contact">
+                <Link className="nav-link" to="/">
                   Contact
                 </Link>
               </li>
               <li className="nav-item">
-                <Link className="nav-link btn btn-primary text-white px-3" to="/login">
+                <Link className="nav-link btn btn-primary text-white px-3" to="/signin">
                   Login
                 </Link>
               </li>
