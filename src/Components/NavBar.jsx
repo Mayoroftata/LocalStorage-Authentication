@@ -4,7 +4,7 @@ const NavBar = () => {
   return (
     <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
+        <div className="container fw-bolder">
           <Link className="navbar-brand" to="/">
             MayorTech
           </Link>

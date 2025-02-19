@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import "react-toastify/ReactToastify.css";
 import { ToastContainer,  toast } from "react-toastify";
+import axios from 'axios';
 
 
 const SignUp = () => {
@@ -11,6 +12,7 @@ const SignUp = () => {
     const [userName, setUserName] = useState("")
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
+    const [msg, setMsg] = useState("")
     const navigate = useNavigate(); // Hook for navigation
 
     const submit = (e) => {
@@ -28,52 +30,71 @@ const SignUp = () => {
                 // transition: Bounce,
                 });
         }else{
-            let data = {surName, firstName, lastName, userName, email, password}
-        console.log(data);
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-        const userExists = users.find((user) => user.userName === userName || user.email === email);
+            
+            let dataOne = {surName, firstName, lastName, userName, email, password}
+            setUserName('');
+            setPassword('');
+            setSurName('');
+            setFirstName('')
+            setLastName('')
+            setEmail('')
+        console.log(dataOne);
 
-    if (userExists) {
-        toast.warn('😔 Username or email already in use!', {
-            position: "top-right",
-            autoClose: 3000,
-            hideProgressBar: false,
-            closeOnClick: false,
-            pauseOnHover: true,
-            draggable: true,
-            progress: undefined,
-            theme: "dark",
-            // transition: Bounce,
-            });
+        axios.post("http://localhost:3000/signup", dataOne)
+        .then((res)=>{
+            if(res.data){
+                console.log(res.data);
+                
+                setMsg(res.data.message)
+                toast.success(msg, {
+                position: "top-right",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: false,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "dark",
+                // transition: Bounce,
+                });
+                setTimeout(() => {
+                    navigate('/signin')
+                }, 3000);
+            }
+            
+        })
+        .catch((err)=>{console.error(err)})
+        
+        
+        // const users = JSON.parse(localStorage.getItem('users')) || [];
+        // const userExists = users.find((user) => user.userName === userName || user.email === email);
+
+    // if (userExists) {
+     
       
-      return;
-    }
+    //   return;
+    // }
+
+
+
     // Add the new user to local storage
-    users.push({ userName, password });
-    localStorage.setItem('users', JSON.stringify(users));
+    // users.push({ userName, password });
+    // localStorage.setItem('users', JSON.stringify(users));
 
     // Clear form fields and error message
-    setUserName('');
-    setPassword('');
-    setSurName('');
-    setFirstName('')
-    setLastName('')
-    setEmail('')
-    toast.success('👍SignUp successful, you can now proceed to sign in!', {
-        position: "top-right",
-        autoClose: 3000,
-        hideProgressBar: false,
-        closeOnClick: false,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "dark",
-        // transition: Bounce,
-        });
+  
+    // toast.success('👍SignUp successful, you can now proceed to sign in!', {
+    //     position: "top-right",
+    //     autoClose: 3000,
+    //     hideProgressBar: false,
+    //     closeOnClick: false,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "dark",
+    //     // transition: Bounce,
+    //     });
 
-        setTimeout(() => {
-            navigate('/signin'); // Navigate to the login page after a delay
-          }, 3000);
         }
         
   };

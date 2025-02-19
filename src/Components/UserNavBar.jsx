@@ -5,9 +5,9 @@ const UserNavBar = () => {
   return (
     <div>
         <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div className="container">
+        <div className="container fw-bolder">
           <Link className="navbar-brand" to="/">
-            MyApp
+            MayorTech
           </Link>
           <button
             className="navbar-toggler"

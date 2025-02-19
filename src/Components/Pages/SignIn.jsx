@@ -2,18 +2,20 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import "react-toastify/ReactToastify.css";
 import { ToastContainer,  toast } from "react-toastify";
+import axios from 'axios';
 
 
 const SignIn = () => {
-    const [userName, setUserName] = useState("")
+    const [email, setEmail] = useState("")
     const [password, setPassword] = useState('')
      const navigate = useNavigate();
+     const [msg, setMsg] = useState("")
 
     const submit = (e) => {
         e.preventDefault();
     
 
-        if (userName=="" || password=="") {
+        if (email=="" || password=="") {
             toast.warn('😔 Enter your details!', {
                 position: "top-right",
                 autoClose: 3000,
@@ -26,43 +28,50 @@ const SignIn = () => {
                 // transition: Bounce,
                 });
         } else {
-            // Retrieve users from local storage
-        const users = JSON.parse(localStorage.getItem('users')) || [];
-    
-        // Check if the entered credentials match any user
-        const user = users.find(
-          (user) => user.userName === userName && user.password === password
-        );
-        if (user) {
-            toast.success('👍Login successful!', {
+
+            let dataTwo = {email, password}
+            setEmail('');
+            setPassword('');
+            axios.post("http://localhost:3000/login", dataTwo)
+            .then((res)=>{
+                let token  = res.data.token;
+                localStorage.setItem("token", JSON.stringify(token))
+                
+                setMsg(res.data.message)
+                toast.success(msg, {
                     position: "top-right",
                     autoClose: 3000,
                     hideProgressBar: false,
                     closeOnClick: false,
-                    pauseOnHover: true,
-                    draggable: true,
+                    pauseOnHover: false,
+                    draggable: false,
                     progress: undefined,
                     theme: "dark",
                     // transition: Bounce,
                     });
-            setUserName('');
-            setPassword('');
-            setTimeout(() => {
-                navigate('/dashboard'); // Navigate to the login page after a delay
-              }, 3000);
-          } else {
-            toast.warn('😔 Invalid username or password!', {
-                        position: "top-right",
-                        autoClose: 3000,
-                        hideProgressBar: false,
-                        closeOnClick: false,
-                        pauseOnHover: true,
-                        draggable: true,
-                        progress: undefined,
-                        theme: "dark",
-                        // transition: Bounce,
-                        });
-          }
+                    setTimeout(() => {
+                        navigate("/dashboard")
+                    }, 3000);
+            })
+        // if (user) {
+  
+            
+        //     setTimeout(() => {
+        //         navigate('/dashboard'); // Navigate to the login page after a delay
+        //       }, 3000);
+        //   } else {
+        //     toast.warn('😔 Invalid username or password!', {
+        //                 position: "top-right",
+        //                 autoClose: 3000,
+        //                 hideProgressBar: false,
+        //                 closeOnClick: false,
+        //                 pauseOnHover: true,
+        //                 draggable: true,
+        //                 progress: undefined,
+        //                 theme: "dark",
+        //                 // transition: Bounce,
+        //                 });
+        //   }
         }
         
     }
@@ -75,13 +84,13 @@ const SignIn = () => {
                     <h3 class="text-center py-2">Account Log in</h3>
                     <div>
                         <form class="mb-3">
-                            <label for="username or email" class="form-label">Username</label>
-                            <input type="text" class="form-control py-3" onChange={(e)=>setUserName(e.target.value)} value={userName} required></input>
+                            <label for="email" class="form-label">Email</label>
+                            <input type="text" class="form-control py-3" onChange={(e)=>setEmail(e.target.value)} value={email} required></input>
 
                             <label for="password" class="form-label">Password</label>
                             <input type="password" class="form-control py-3" onChange={(e)=>setPassword(e.target.value)} value={password} required></input>
 
-                            <div class="">
+                            <div class="my-4">
                                 <button type="button" class="btn btn-1 rounded-pill btn-primary w-100 fw-bold py-2" onClick={submit}>Log in</button>
                             </div>
                         </form>

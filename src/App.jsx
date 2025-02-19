@@ -7,6 +7,7 @@ import SignIn from './Components/Pages/SignIn'
 import About from './Components/Pages/About'
 import Contact from './Components/Pages/Contact'
 import LandingPage from './Components/Pages/LandingPage'
+import Signik from './Components/Pages/Signik'
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
       <Route path="/" element={<LandingPage />} />
       <Route path="/about" element={<About/>} />
       <Route path="/contact" element={<Contact/>} />
+      <Route path="/formik" element={<Signik/>} />
       </Routes>
     </>
   )
